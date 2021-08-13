@@ -11,6 +11,9 @@
     <app-root></app-root>
   </body>
   <script>
-    location.href = "https://ethanyifan.github.io/ethan-desktop-page";
+    const host = location.host;
+    let redirectUrl = "https://ethanyifan.github.io/ethan-desktop-page";
+    if (host.indexOf("vercel") != -1) redirectUrl = "https://ethan-desktop-page.vercel.app/";
+    location.href = redirectUrl;
   </script>
 </html>
