@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <title>EthanDesktop</title>
+    <base href="./" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <link rel="apple-touch-icon" sizes="114x114" href="./assets/logo.png" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  </head>
+  <body></body>
+  <script>
+    const host = location.host;
+    let redirectUrl = "https://ethanyifan.github.io/ethan-desktop-page";
+    if (host.indexOf("vercel") != -1) redirectUrl = "https://ethanyifan.vercel.app/";
+    location.href = redirectUrl;
+    // 禁用缩放
+    window.οnlοad = function () {
+      document.addEventListener("touchstart", function (event) {
+        if (event.touches.length > 1) {
+          event.preventDefault();
+        }
+      });
+      var lastTouchEnd = 0;
+      document.addEventListener(
+        "touchend",
+        function (event) {
+          var now = new Date().getTime();
+          if (now - lastTouchEnd <= 300) {
+            event.preventDefault();
+          }
+          lastTouchEnd = now;
+        },
+        false
+      );
+    };
+  </script>
+</html>
