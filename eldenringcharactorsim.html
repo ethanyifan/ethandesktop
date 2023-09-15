@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+        background-color: black;
+        color: white;
+      }
+      .input {
+        opacity: 0;
+      }
+      .main {
+        display: flex;
+        flex-wrap: wrap;
+        margin-top: 10px;
+        padding: 20px;
+      }
+      .result-item {
+        margin-right: 8px;
+        margin-bottom: 8px;
+        display: flex;
+        padding: 10px 20px;
+        border-radius: 4px;
+        background-color: rgba(255, 255, 255, 0.2);
+        cursor: pointer;
+      }
+      .result-item:active {
+        opacity: 0.5;
+      }
+      .header {
+        width: 32px;
+        height: 32px;
+        border-radius: 4px;
+        margin-right: 8px;
+      }
+      .name-block {
+        display: flex;
+        margin-bottom: 6px;
+      }
+      .name {
+        font-size: 12px;
+        line-height: 12px;
+        margin-right: 4px;
+      }
+      .position {
+        font-size: 12px;
+        line-height: 12px;
+        opacity: 0.5;
+      }
+      .phone {
+        font-size: 12px;
+        line-height: 12px;
+        opacity: 0.8;
+      }
+    </style>
+  </head>
+  <body>
+    <input class="input" id="file" type="file" />
+    <div id="main" class="main"></div>
+
+    <script>
+      document.getElementById("file").addEventListener("change", (e) => {
+        let file = e.target.files[0];
+        if (file) {
+          let fileReader = new FileReader();
+          fileReader.onload = (e) => {
+            let result = JSON.parse(e.currentTarget.result);
+            let str = "";
+            result.map((item, index) => {
+              str += `
+                <div class="result-item" onclick="handleCopy('${item.phone}')">
+                    <img class="header" src="${item.header}" />
+                    <div>
+                        <div class="name-block">
+                            <div class="name">${item.name}</div>
+                            <div class="position">${item.position}</div>
+                        </div>
+                        <div class="phone">${item.phone}</div>
+                    </div>
+                </div>
+              `;
+            });
+            document.getElementById("main").innerHTML = str;
+          };
+          fileReader.readAsText(file);
+        }
+      });
+
+      function handleCopy(string) {
+        let oInput = document.createElement("textarea");
+        oInput.style.position = "fixed";
+        oInput.style.top = "-1000px";
+        oInput.style.left = "-1000px";
+        oInput.value = string;
+        document.body.appendChild(oInput);
+        oInput.select();
+        document.execCommand("Copy");
+        oInput.remove();
+      }
+    </script>
+  </body>
+</html>
